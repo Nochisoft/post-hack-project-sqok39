@@ -1,0 +1,29 @@
+on:
+  push:
+    paths: 
+      [ .github/workflows/azure.yaml ]
+
+jobs:
+  create_resource:
+    name: Create Azure Resource
+    runs-on: ubuntu-latest
+    env:
+      resource_group_name: ${{ github.repository }} 
+      azure_region: "southIndia"
+
+    steps:
+      - name: 'Checkout Github Action'
+        uses: actions/checkout@main
+      
+      - name: azure authentication
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - run: echo "azure login done" 
+      - name: Create Azure storage account
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            echo ${{ env.resource_group_name }}
+            stgjson=$(az storage account create -n project-lalitha-09f2pr -g ${{ env.resource_group_name }}  --sku Standard_LRS )
+            echo $stgjson
