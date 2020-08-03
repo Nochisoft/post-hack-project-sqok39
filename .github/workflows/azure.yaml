@@ -19,7 +19,7 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - run: echo "azure login done" 
+      - run: echo Azure Login Completed 
       - name: Create Azure storage account
         uses: azure/CLI@v1
         with:
